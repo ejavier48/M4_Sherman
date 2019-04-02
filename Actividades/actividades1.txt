@@ -1,0 +1,28 @@
+Perido de tiempo 1 semana:
+
+Entregas:
+
+Tanque Dimensiones:
+Largo: 6.5 metros
+Ancho: 6.5 metros
+Largo cañon: 1.5 metros
+Radio cañon: 1.5 metros
+Orugas o Ruedas: 1.5 metros
+
+Dibujar Tanque:
+- Dibujar Tanque (1 siempre al centro) (ejemplo)
+- Traslacion Tanque (Movimiento Tanque) (2.5 º)
+- *Traslacion Cañon (Movimiento Cañon) (1 º)
+- Zoom in y Zoom out (Acercamiento Tablero)
+- Escala 12 pxl 6 m, (Zoom 0)
+
+Dibujo de Movimiento:
+- Dibujar 2 puntos que se muevan en la pantalla
+- La velocidad de un punto puede aumentar o disminuir (de 0 a 16 km/h) (1 km/h por click) (aceleracion de 0 a 16 km en 5 seg)
+- El punto puede cambiar de direccion (2.5 º)
+
+Posicionamiento Matriz:
+- Tamaño (Mundo 1 km^2) (1000m - 1000m) solo positivos
+- Posicionamiento random de 1 a 10 puntos por equipo  (2 equipos) (Cada tanque ocupa 6.5 m^2)
+- Calculo de daño causado por disparos (Dado una posicion de un tanque, inclinacion cañon y direccion cañon)
+- Disparos Daño total es de 100 pts en el centro, Radio de daño 10 m, cada metro de distacia del radio. el daño disminuye 10%
