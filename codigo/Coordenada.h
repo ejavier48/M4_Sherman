@@ -7,10 +7,12 @@ private:
 	double y;
 public:
 	Coordenada();
-	Coordenada(double xx, double yy);
 	void setX(double);
 	void setY(double);
+	void desX(double);
+	void desY(double);
 	double getX();
 	double getY();
+	Coordenada(double xx, double yy);
 };
 #endif

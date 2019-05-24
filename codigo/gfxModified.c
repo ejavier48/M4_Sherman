@@ -16,6 +16,7 @@ Further Modified by Patrick Myron and Anna McMahon and Ukranio Coronilla
 #include <string.h>
 #include <stdbool.h>
 
+
 /* gfx_open creates several X11 objects, and stores them in these globals
    the globals are used by the other functions in the library.  */
 
@@ -223,14 +224,84 @@ int gfx_ysize()
 	return XDisplayHeight(gfx_display, 0);
 }
 
+/* Draw a filled rectangle; similar setup to gfx_rectangle, but "one pixel in" on all four sides */
+void gfx_fill_rectangle( int x, int y, int w, int h )
+{
+	XFillRectangle(gfx_display, gfx_window, gfx_gc, x, y, w, h);
+}
+
+/* Dibuja un poligono lleno cuyos vertices se pasan como un arreglo de XPoint */
+//Ejemplo de un triangulo lleno:
+// XPoint reye[] = {{240,270},{230,290},{250,290}};
+//  npuntos = 3;
+void gfx_fill_polygon(XPoint *puntos, int npuntos)
+{
+	XFillPolygon(gfx_display, gfx_window, gfx_gc, puntos, npuntos, Convex, CoordModeOrigin);
+}
+
+
 /* Draw a string at point (x,y) */
 void gfx_text( int x, int y , char *text )
-	
-{	
+{
 	//Font font=XLoadFont(gfx_display,-bitstream-charter-medium-r-normal--12-120-75-75-p-68-iso8859-1[65 70 80_90]);
 	//XTextItem stritem={text,50,5,};
        XDrawString(gfx_display, gfx_window, gfx_gc, x, y, text, strlen(text));
 	//XDrawText(gfx_display, gfx_window, gfx_gc, x, y,stritem,1);
+}
+
+/* Dibuja un caracter de 17 segmentos entre A y Z o 0 y 9 según su valor ascii, en la posición x, y.
+factor f es un numero entero entre 1 y n que le da el tamaño al caracter */
+void gfx_display_ascii(int x, int y , int f, int n) //Valor ASCII
+{
+    XPoint nueve[] = {{f+x,2*f+y},{2*f+x,f+y},{3*f+x,5*f+y}, {2*f+x, 6*f+y}};
+    XPoint diez[] = {{5*f+x, f+y}, {6*f+x, 2*f+y}, {5*f+x, 6*f+y}, {4*f+x, 5*f+y}};
+    XPoint once[] = {{2*f+x, 7*f+y}, {3*f+x, 8*f+y}, {2*f+x, 12*f+y}, {f+x, 11*f+y}};
+    XPoint trece[] = {{4*f+x, 8*f+y}, {5*f+x, 7*f+y}, {6*f+x, 11*f+y}, {5*f+x, 12*f+y}};
+    int npuntos = 4;
+
+    if(n != 'H' && n!= 'J' && n!= 'K' && n != 'L' && n != 'M' && n != 'N' && n != 'U' && n != 'V' && n != 'W' && n != 'X' && n != 'Y' && n !='1' && n !='4'){
+        gfx_fill_rectangle( f+x, 0+y, 2*f, f ); //1
+    }
+
+    if(n != 'H' && n!= 'J' && n!= 'K' && n != 'L' && n != 'M' && n != 'N' && n != 'U' && n != 'V' && n != 'W' && n != 'X' && n != 'Y' && n !='1' && n !='4' && n !='6'){
+        gfx_fill_rectangle( 4*f+x, 0+y, 2*f, f ); //2
+    }
+
+    if(n != 'B' && n!= 'D' && n != 'I' && n != 'J' && n != 'T' && n != 'X' && n != 'Z' && n !='1' && n !='2' && n !='3' && n !='7')
+        gfx_fill_rectangle( 0+x, f+y, f, 5*f ); //8
+
+    if(n != 'C' && n!= 'E' && n!= 'F' && n != 'G' && n != 'I' && n != 'K' && n != 'L' && n != 'S' && n != 'T' && n != 'V' && n != 'X' && n != 'Z' && n !='5' && n !='6')
+        gfx_fill_rectangle( 6*f+x, f+y, f, 5*f ); //3
+
+    if(n!= 'B' && n!= 'D' && n != 'I' && n != 'S' && n != 'T' && n != 'X' && n != 'Y' && n != 'Z' && n !='1' && n !='3' && n !='4' && n !='5' && n !='7' && n !='9')
+        gfx_fill_rectangle( 0+x, 7*f+y, f, 5*f ); //7
+
+    if(n != 'C' && n!= 'E' && n!= 'F' && n != 'I' && n != 'K' && n != 'L' && n != 'P' && n != 'R' && n != 'T' && n != 'V' && n != 'X' && n != 'Y' && n != 'Z' && n !='2')
+        gfx_fill_rectangle( 6*f+x, 7*f+y, f, 5*f ); //4
+
+    if(n != 'A' && n!= 'F' && n!= 'H' && n!= 'K' && n != 'M' && n != 'N' && n != 'P' && n != 'R' && n != 'T' && n != 'V' && n != 'W' && n != 'X' && n != 'Y' && n !='1' && n !='4' && n !='7' && n !='9'){
+        gfx_fill_rectangle( f+x, 12*f+y, 2*f, f ); //6
+    }
+    if(n != 'A' && n!= 'F' && n!= 'H' && n!= 'K' && n != 'M' && n != 'N' && n != 'P' && n != 'R' && n != 'T' && n != 'V' && n != 'W' && n != 'X' && n != 'Y' && n !='1' && n !='4' && n !='7'){
+        gfx_fill_rectangle( 4*f+x, 12*f+y, 2*f, f ); //5
+    }
+
+    if(n == 'M' || n== 'N' || n== 'X')
+        gfx_fill_polygon(nueve, npuntos); //9
+    if(n == 'B' || n== 'D' || n== 'I' || n== 'T')
+        gfx_fill_rectangle( 3*f+x, f+y, f, 5*f ); //16
+    if(n == 'K' || n== 'M' || n== 'V' || n== 'X' || n== 'Z' || n== '0' || n== '1' )
+        gfx_fill_polygon(diez, npuntos); //10
+    if(n == 'A' || n== 'E' || n== 'F' || n== 'H' || n== 'K' || n== 'P' || n== 'R' || n== 'S' || n== 'Y' || n== '2' || n== '4' || n== '5' || n== '6' || n== '8' || n== '9' )
+        gfx_fill_rectangle( f+x, 6*f+y, 2*f, f ); //14
+    if(n == 'A' || n== 'B' || n== 'G' || n== 'H' || n== 'P' || n== 'R' || n== 'S' || n== 'Y'  || n== '2' || n== '3' ||n== '4' || n== '5' || n== '6' || n== '8' || n== '9' )
+        gfx_fill_rectangle( 4*f+x, 6*f+y, 2*f, f ); //15
+    if(n == 'V' || n == 'W' || n== 'X' || n== 'Z' || n== '0')
+        gfx_fill_polygon(once, npuntos); //11
+    if(n == 'B' || n== 'D' || n== 'I' || n== 'T' || n== 'Y')
+        gfx_fill_rectangle( 3*f+x, 7*f+y, f, 5*f ); //17
+    if(n == 'K' || n== 'N' || n== 'Q' || n== 'R' || n== 'W' || n== 'X')
+        gfx_fill_polygon(trece, npuntos); //13
 }
 
 /* Draw a single point at (x,y) */
@@ -272,7 +343,7 @@ void gfx_circle( int xCtr, int yCtr, int r )
 	   p = p + 4 * (x - y) + 10;
 	   y--;
 	}
-   } 
+   }
 }
 
 /* Draw an ellipse; uses Xlib's native arc drawing function */
@@ -283,15 +354,10 @@ void gfx_ellipse( int xCtr, int yCtr, int r1, int r2 )
 
 /* Draw a rectangle, given its top left corner and its (positive) width and height */
 void gfx_rectangle( int x, int y, int w, int h )
-{ 
+{
 	XDrawRectangle(gfx_display, gfx_window, gfx_gc, x, y, w, h);
 }
 
-/* Draw a filled rectangle; similar setup to gfx_rectangle, but "one pixel in" on all four sides */
-void gfx_fill_rectangle( int x, int y, int w, int h )
-{ 
-	XFillRectangle(gfx_display, gfx_window, gfx_gc, x, y, w, h);
-}
 
 /* Dibuja un arco lleno  donde x, y es la coordenada del angulo superior izquierdo que la contiene*/
 void gfx_fill_arc( int x, int y, unsigned int width, unsigned int height, int angle1, int angle2)
@@ -309,6 +375,8 @@ void gfx_polygon( XPoint *pointsarr, int num_pts )
 	XDrawLines(gfx_display, gfx_window, gfx_gc, pointsarr, num_pts, CoordModeOrigin);
 }
 
+
+
 /* Draw a triangle connecting (x1,y1), (x2,y2), and (x3,y3) */
 void gfx_triangle( int x1, int y1, int x2, int y2, int x3, int y3 )
 {
@@ -318,117 +386,14 @@ void gfx_triangle( int x1, int y1, int x2, int y2, int x3, int y3 )
 }
 
 
-bool gfx_keyPress(bool keys[6]){
-	XEvent report,pause;
-	int i;
-		XNextEvent (gfx_display, &report);
-		switch (report.type)
-		{
-		case KeyPress:
-			  fprintf (stdout, "key #%ld was pressed.\n",
-			   (long) XLookupKeysym (&report.xkey, 0));
-
-			switch((long) XLookupKeysym (&report.xkey, 0)){
-			case 97:
-				keys[0] = 1;
-				break;
-			case 119:
-				keys[1] = 1;
-				break;
-			case 100:
-				keys[2] = 1;
-				break;
-			case 65361:
-				keys[3] = 1;
-				break;
-			case 65362:
-				keys[4] = 1;
-				break;
-			case 65363:
-				keys[5] = 1;
-				break;
-			case 65307:
-				printf("escaped\n");
-				return 1;
-				break;
-			case 112:
-				printf("paused\n");
-				while(1){
-					//pause=XEvent(NULL);
-					XNextEvent (gfx_display, &pause);
-					if( (long) XLookupKeysym (&pause.xkey, 0) == 112)
-						break;
-					else
-						printf("press p to continue\n");					
-				}
-				break;
-			default:
-				//printf("wrong key");
-				break;
-			}
-
-			int counter;
-			/*
-			for(counter=0;counter<6;counter++)
-				printf("%i ",keys[counter]);
-			printf("\n\n");
-			*/
-			break;
-		case KeyRelease:
-			{
-				unsigned short is_retriggered = 0;
-
-				if (XEventsQueued(gfx_display, QueuedAfterReading))
-				{
-					XEvent nev;
-					XPeekEvent(gfx_display, &nev);
-
-					if (nev.type == KeyPress && nev.xkey.time == report.xkey.time &&
-						nev.xkey.keycode == report.xkey.keycode)
-					{
-
-						// delete retriggered KeyPress event
-						XNextEvent (gfx_display, &report);
-						is_retriggered = 1;
-					}
-				}
-
-				if (!is_retriggered){
-					//   fprintf (stdout, "key #%ld was released.\n",
-					// (long) XLookupKeysym (&report.xkey, 0));
-
-					switch((long) XLookupKeysym (&report.xkey, 0)){
-					case 97:
-						keys[0] = 0;
-						break;
-					case 119:
-						keys[1] = 0;
-						break;
-					case 100:
-						keys[2] = 0;
-						break;
-					case 65361:
-						keys[3] = 0;
-						break;
-					case 65362:
-						keys[4] = 0;
-						break;
-					case 65363:
-						keys[5] = 0;
-						break;	
-					default:
-						//printf("wrong key");
-						break;
-					}
-					int counter;
-					/*
-					for(counter=0;counter<6;counter++)
-						printf("%i ",keys[counter]);
-					printf("\n\n");
-					*/
-				}
-			}
-			break;
-		}
-	return 0;
+long gfx_keyPress(){
+	XEvent report, pause;
+	XNextEvent (gfx_display, &report);
+	printf("report\n");
+	if(report.type == KeyPress) {
+		printf("KeyPress\n");
+		return (long) XLookupKeysym(&report.xkey, 0);
+	} else {
+		return -1;
+	}
 }

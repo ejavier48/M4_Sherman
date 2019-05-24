@@ -15,6 +15,14 @@ void Coordenada::setY(double yy) {
 	y = yy;
 }
 
+void Coordenada::desX(double dx) {
+	x += dx;
+}
+
+void Coordenada::desY(double dy) {
+	y += dy;
+}
+
 double Coordenada::getX() {
 	return x;
 }
