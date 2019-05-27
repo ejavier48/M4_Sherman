@@ -80,25 +80,19 @@ void TableroCliente::initTablero() {
 
 void TableroCliente::muestraSalud() {
 	if(prevSalud != tanq.getSalud()) {
-
+		 
+		
 		gfx_color(192, 192, 192);
 		gfx_fill_rectangle(600, 0, 200, 100);
 
 		prevSalud = tanq.getSalud();
 
-		string health = to_string(prevSalud);
-		str = "Vida: ";
-		str.append(health);
-		str.append("%\0\n");
-		memcpy(text, str.c_str(), str.size());
+		char aux[20];
+		strcpy(aux, "Vida: ");
+		strcat(aux, to_string(prevSalud).c_str() );
 		
 		gfx_color(0, 10, 20);
-		gfx_text(655, 40, text);
-
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		
-		str.erase();
+		gfx_text(655, 40, aux);
 
 		//healty bar perimeter
 		gfx_color(0, 0, 0);
@@ -116,24 +110,16 @@ void TableroCliente::muestraSalud() {
 void TableroCliente::muestraVelocidad() {
 	if(prevVel != tanq.getVelocidad()) {
 
-		text = new char(1);
-		//delete[] text;
-
 		gfx_color(192, 192, 192);
 		gfx_fill_rectangle(600, 130, 200, 90);	
 
 		prevVel = tanq.getVelocidad();
-
-		str = "Velocidad (km/hr)\0\n";
-		//text = new char(str.size());
-		memcpy(text, str.c_str(), str.size());
-
+		
+		char aux[20];
+		strcpy(aux, "Velocidad (km/hr)");
+		
 		gfx_color(0, 10, 20);
-		gfx_text(650, 130, text);
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		str.erase();
-		//delete[] text;
+		gfx_text(650, 130, aux);
 
 		//speed display
 		gfx_color(0, 0, 0);
@@ -157,25 +143,17 @@ void TableroCliente::muestraVelocidad() {
 void TableroCliente::muestraDirTanque() {
 	if(prevDirTanq != tanq.getDirTanque()) {
 
-		text = new char(1);
-		//delete[] text;
-
 		gfx_color(192, 192, 192);
 		gfx_fill_rectangle(600, 250, 200, 70);			
 
 		prevDirTanq = tanq.getDirTanque();
 		int auxDir = prevDirTanq * 10;
 
-		str = "Direccion Tanque\0\n";
-		//text = new char(str.size());
-		memcpy(text, str.c_str(), str.size());
-
+		char aux[20];
+		strcpy(aux, "Direccion Tanque");
+		
 		gfx_color(0, 10, 20);
-		gfx_text(650, 250, text);
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		str.erase();
-		//delete[] text;
+		gfx_text(650, 250, aux);
 
 		//speed display
 		gfx_color(0, 0, 0);
@@ -218,24 +196,16 @@ void TableroCliente::muestraDirTanque() {
 void TableroCliente::muestraDirCanion() {
 	if(prevDirCanion != tanq.getDirCanion()) {
 		
-		text = new char(1);
-		//delete[] text;
-		//free(text);
 		gfx_color(192, 192, 192);
 		gfx_fill_rectangle(600, 335, 100, 90);	
 
 		prevDirCanion = tanq.getDirCanion();
 
-		str = "Direccion\0\n";
-		//text = new char(str.size());
-		memcpy(text, str.c_str(), str.size());
-
+		char aux[20];
+		strcpy(aux, "Direccion");
+		
 		gfx_color(0, 10, 20);
-		gfx_text(620, 345, text);
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		str.erase();
-		//delete[] text;
+		gfx_text(620, 345, aux);
 
 		//speed display
 		gfx_color(0, 0, 0);
@@ -269,21 +239,13 @@ void TableroCliente::muestraEleCanion() {
 
 		prevEleCanion = tanq.getEleCanion();
 
-		str = "Elevacion\0\0\n";
-		//text = new char(str.size());
-		
-		memcpy(text, str.c_str(), str.size());
-
+		char aux[20];
+		strcpy(aux, "Elevacion");
 
 		gfx_color(0, 10, 20);
-		gfx_text(720, 345, text);
+		gfx_text(720, 345, aux);
 
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		str.erase();
-		//delete[] text;
 
-		//speed display
 		gfx_color(0, 0, 0);
 		gfx_fill_rectangle(710, 352, 80, 65);
 		
@@ -391,6 +353,8 @@ void TableroCliente::muestraMiTanque() {
 
 
 	gfx_color(255, 255, 255);
+	
+	char aux[20];
 	for(int i = 0, dx, dy; i < 4; i++) {
 		
 		dx = xs + (COORD_X[i]*mtrPx);
@@ -402,15 +366,9 @@ void TableroCliente::muestraMiTanque() {
 		if(dx < 0 || dy < 0) 
 			continue;
 		else
-			str = "(" + to_string(dx) + "," + to_string(dy) + ")\0\n";
+			sprintf(aux, "(%d,%d)", dx, dy);
 
-		//text = new char(str.size());
-		memcpy(text, str.c_str(), str.size());
-		gfx_text(SHOW_POS_X[i], SHOW_POS_Y[i], text);
-		for(unsigned i = 0; i < str.size(); i++)
-			text[i] = '\0';
-		str.erase();
-		//delete[] text;
+		gfx_text(SHOW_POS_X[i], SHOW_POS_Y[i], aux);
 
 	}
 	gfx_flush();
