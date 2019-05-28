@@ -25,6 +25,7 @@ private:
 
 	char equipo;
 	short id;
+	short salud;
 	short dirCanion;
 	double dirTanque;
 	Coordenada posTanque;
@@ -36,17 +37,19 @@ private:
 public:
 
 	InfoTanque();
-	InfoTanque(char, short, short, double, Coordenada);
+	InfoTanque(char, short, short, short, double, Coordenada);
 	~InfoTanque();
 
 	void setEquipo(char);
 	void setID(short);
+	void setSalud(short);
 	void setDirCanion(short);
 	void setDirTanque(double);
 	void setPosTanque(Coordenada);
 
 	char getEquipo();
 	short getId();
+	short getSalud();
 	short getDirCanion();
 	double getDirTanque();
 	double getRadio();

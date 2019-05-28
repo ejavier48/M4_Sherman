@@ -106,7 +106,7 @@ void DibujoTanque::initCoords() {
 		aux = Coordenada(x, y);
 
 		//se agrega coordenada al vector
-		contornoIn.push_back(aux);
+		contornoIn.push_back(aux); 
 	}
 	return;
 }
@@ -202,12 +202,12 @@ void DibujoTanque::setDirTanque(double dirT) {
 	dirTanque = dirT;
 }
 
-void DibujoTanque::setDirCanion(int dirC) {
+void DibujoTanque::setDirCanion(short dirC) {
 
 	dirCanion = dirC;
 }
 
-void DibujoTanque::setSalud(int saludTan) {
+void DibujoTanque::setSalud(short saludTan) {
 
 	salud = saludTan;
 }

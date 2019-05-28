@@ -103,8 +103,8 @@ public:
 
 	void setPosicion(Coordenada);
 	void setDirTanque(double);
-	void setDirCanion(int);
-	void setSalud(int);
+	void setDirCanion(short);
+	void setSalud(short);
 	void resetVelocidad();
 
 	Coordenada getPosicion();

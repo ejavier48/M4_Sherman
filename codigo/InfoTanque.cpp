@@ -58,10 +58,11 @@ InfoTanque::InfoTanque() {
 	initCoords();
 }
 
-InfoTanque::InfoTanque(char idEquipo, short idTanque, short dCanion, double dTanque, Coordenada pos) {
+InfoTanque::InfoTanque(char idEquipo, short idTanque, short dCanion, short saludT, double dTanque, Coordenada pos) {
 	diagonal_ex = sqrt(pow(LARGO_EX, 2) + pow(ANCHO_EX, 2));
 	equipo = idEquipo;
 	id = idTanque;
+	salud = saludT;
 	dirCanion = dCanion;
 	dirTanque = dTanque;
 	posTanque = pos;
@@ -77,11 +78,14 @@ void InfoTanque::setEquipo(char idEquipo) {
 	return ;
 }
 
+void InfoTanque::setSalud(short saludT) {
+	salud = saludT;
+}
+
 void InfoTanque::setID(short idTanque) {
 	id = idTanque;
 	return ;
 }
-
 
 void InfoTanque::setDirCanion(short dCanion) {
 	dirCanion = dCanion;
@@ -105,6 +109,11 @@ char InfoTanque::getEquipo() {
 short InfoTanque::getId() {
 	return id;
 }
+
+short InfoTanque::getSalud() {
+	return salud;
+}
+
 
 short InfoTanque::getDirCanion() {
 	return dirCanion;
